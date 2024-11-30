@@ -31,7 +31,7 @@ public class AdminMenu {
         String[][] users = this.userService.GetUsers();
         String[] cols = {"ID", "USERNAME", "PASSWORD", "NOMBRE", "APELLIDO", "ROL"};
 
-        String[] options = {"AGREGAR", "EDITAR", "SALIR"};
+        String[] options = {"AGREGAR", "SALIR"};
 
         JTable table = new JTable(users, cols);
         OUTER:
@@ -41,8 +41,6 @@ public class AdminMenu {
                 case 0 ->
                     AddUser();
                 case 1 -> {
-                }
-                case 2 -> {
                     break OUTER;
                 }
                 default -> {
@@ -59,7 +57,7 @@ public class AdminMenu {
         JPasswordField password = new JPasswordField();
         JTextField nombre = new JTextField();
         JTextField apellido = new JTextField();
-        JComboBox<String> rol = new JComboBox<>(new String[]{"Admin", "Estudiante"});
+        JComboBox<String> rol = new JComboBox<>(new String[]{"Admin", "Profesor", "Estudiante"});
 
         Object[] message = {
             "Username:", username,

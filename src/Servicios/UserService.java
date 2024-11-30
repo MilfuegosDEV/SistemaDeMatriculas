@@ -7,13 +7,14 @@ public class UserService {
     private final UserEntity[] users;
 
     public RoleEntity Admin;
-
+    public RoleEntity Teacher;
     public RoleEntity Student;
 
     public UserService() {
         this.users = new UserEntity[1000];
         this.Admin = new RoleEntity(1, "Admin");
-        this.Student = new RoleEntity(2, "Estudiante");
+        this.Teacher = new RoleEntity(2, "Profesor");
+        this.Student = new RoleEntity(3, "Estudiante");
     }
 
     public UserEntity AddUser(UserEntity user) {
