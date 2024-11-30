@@ -20,6 +20,7 @@ public class UserService {
         for (int i = 0; i < this.users.length; i++) {
             if (this.users[i] == null) {
                 this.users[i] = user;
+                user.setUserId(i);
                 break;
             }
         }
@@ -31,8 +32,7 @@ public class UserService {
             if (user != null && user.GetUsername().equals(username)) {
                 return user;
             }
-
-            return user;
+            return null;
         }
         return null;
     }
@@ -46,10 +46,4 @@ public class UserService {
         }
         return userInfos;
     }
-
-    public boolean ValidateUser(String username, String password) {
-        UserEntity user = this.GetUser(username);
-        return user != null && user.ValidatePassword(password);
-    }
-
 }

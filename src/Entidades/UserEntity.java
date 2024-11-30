@@ -15,10 +15,9 @@ public class UserEntity {
     protected String password;
     public String name;
     public String lastname;
-    protected RoleEntity role;
+    public RoleEntity role;
 
-    public UserEntity(int id, String username, String password, String name, String lastname, RoleEntity role) {
-        this.id = id;
+    public UserEntity(String username, String password, String name, String lastname, RoleEntity role) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -37,6 +36,10 @@ public class UserEntity {
         return this.password.equals(password);
     }
 
+    public void setUserId(int id) {
+        this.id = id;
+    }
+
     public String GetUsername() {
         return this.username;
     }
@@ -49,6 +52,6 @@ public class UserEntity {
 
     public static UserEntity FromString(String user) {
         String[] data = user.split(",");
-        return new UserEntity(Integer.parseInt(data[0]), data[1], data[2], data[3], data[4], new RoleEntity(Integer.parseInt(data[5]), ""));
+        return new UserEntity(data[1], data[2], data[3], data[4], new RoleEntity(Integer.parseInt(data[5]), ""));
     }
 }
