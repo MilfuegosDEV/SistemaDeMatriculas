@@ -10,7 +10,7 @@ public class ProfesorMenu {
         JOptionPane.showOptionDialog(null, "Bienvenido profesor", "Sistema de matrículas\nSeleccione una opción", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Options, Options[0]);
     }
 
-    public void setInvisible() {
+    public void close() {
 
     }
 

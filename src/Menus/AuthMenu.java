@@ -25,16 +25,24 @@ public class AuthMenu {
                 } else {
                     UserEntity user = userService.GetUser(username.getText());
                     if (user != null && user.ValidatePassword(password.getText())) {
-                        if (user.role.GetRole().equals("Admin")) {
-                            JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
-                            AdminMenu adminMenu = new AdminMenu(user, userService);
-                            adminMenu.close();
-                        } else if (user.role.GetRole().equals("Estudiante")) {
-                            JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
-                            StudentMenu studentMenu = new StudentMenu(user);
-                        } else if (user.role.GetRole().equals("Profesor")) {
-                            JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
-                            ProfesorMenu profesorMenu = new ProfesorMenu(user);
+                        switch (user.role.GetRole()) {
+                            case "Admin" -> {
+                                JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
+                                AdminMenu adminMenu = new AdminMenu(user, userService);
+                                adminMenu.close();
+                            }
+                            case "Estudiante" -> {
+                                JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
+                                StudentMenu studentMenu = new StudentMenu(user);
+                                studentMenu.close();
+                            }
+                            case "Profesor" -> {
+                                JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
+                                ProfesorMenu profesorMenu = new ProfesorMenu(user);
+                                profesorMenu.close();
+                            }
+                            default -> {
+                            }
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);

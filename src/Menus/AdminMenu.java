@@ -32,16 +32,23 @@ public class AdminMenu {
         String[] options = {"AGREGAR", "EDITAR", "SALIR"};
 
         JTable table = new JTable(users, cols);
-        JOptionPane.showOptionDialog(null, new JScrollPane(table
-        ), "USUARIOS", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-
-        if (options[0].equals("AGREGAR")) {
-            AddUser();
-        } else if (options[1].equals("EDITAR")) {
+        OUTER:
+        do {
+            int option = JOptionPane.showOptionDialog(null, new JScrollPane(table), "Usuarios", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+            switch (option) {
+                case 0 ->
+                    AddUser();
+                case 1 -> {
+                }
+                case 2 -> {
+                    break OUTER;
+                }
+                default -> {
+                }
+            }
             // EditUser();
-        } else if (options[2].equals("SALIR")) {
-            // break;
-        }
+                    } while (true);
+
 
     }
 
