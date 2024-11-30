@@ -8,28 +8,40 @@ import javax.swing.JTextField;
 
 public class AuthMenu {
 
-    public static void Login(UserService userService) {
-        JTextField username = new JTextField();
-        JTextField password = new JPasswordField();
-        Object[] message = {
-            "Username:", username,
-            "Password:", password
-        };
+    UserService userService;
 
-        do {
+    public AuthMenu(UserService userService) {
+        this.userService = userService;
+    }
+
+    public void Login() {
+
+        boolean loggedIn = false;
+
+        while (!loggedIn) {
+            JTextField username = new JTextField();
+            JTextField password = new JPasswordField();
+            Object[] message = {
+                "Username:", username,
+                "Password:", password
+            };
             int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION);
 
             if (option == JOptionPane.OK_OPTION) {
                 if (username.getText().isEmpty() || password.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese un usuario y contraseña", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    UserEntity user = userService.GetUser(username.getText());
+                    UserEntity user = this.userService.GetUser(username.getText());
                     if (user != null && user.ValidatePassword(password.getText())) {
+                        loggedIn = true;
                         switch (user.role.GetRole()) {
                             case "Admin" -> {
                                 JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
-                                AdminMenu adminMenu = new AdminMenu(user, userService);
-                                adminMenu.close();
+                                AdminMenu adminMenu = new AdminMenu(user, this.userService);
+                                this.userService = adminMenu.close();
+                                username.setText("");
+                                password.setText("");
+                                loggedIn = false;
                             }
                             case "Estudiante" -> {
                                 JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
@@ -46,16 +58,16 @@ public class AuthMenu {
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
-
                     }
                 }
             } else {
-                break;
+                break; // Salir del bucle si el usuario cancela
             }
-        } while (true);
+        }
     }
 
-    public static void Logout() {
+    public UserService Logout() {
         JOptionPane.showMessageDialog(null, "Sesión cerrada", "Logout", JOptionPane.INFORMATION_MESSAGE);
+        return this.userService;
     }
 }

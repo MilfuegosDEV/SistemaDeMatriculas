@@ -9,19 +9,21 @@ public class AdminMenu {
     UserService userService;
 
     public AdminMenu(UserEntity user, UserService userService) {
+        this.userService = userService;
+        String[] Options = {"USUARIOS", "CURSOS", "SALIR"};
         do {
-            this.userService = userService;
-            String[] Options = {"USUARIOS", "CURSOS", "SALIR"};
-            JOptionPane.showOptionDialog(null, "Bienvenido " + user.GetUsername(), "Sistema de matrículas\nSeleccione una opción", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Options, Options[0]);
-
-            if (Options[0].equals("USUARIOS")) {
-                ShowUsers();
-            } else if (Options[1].equals("CURSOS")) {
-                // ShowCourses();
-            } else if (Options[2].equals("SALIR")) {
-                break;
+            int option = JOptionPane.showOptionDialog(null, "Bienvenido " + user.GetUsername(), "Sistema de matrículas\nSeleccione una opción", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Options, Options[0]);
+            switch (option) {
+                case 0 ->
+                    ShowUsers();
+                case 1 -> {
+                }
+                case 2 -> {
+                    return;
+                }
+                default -> {
+                }
             }
-
         } while (true);
     }
 
@@ -82,8 +84,8 @@ public class AdminMenu {
         }
     }
 
-    public void close() {
-
+    public UserService close() {
+        return this.userService;
     }
 
 }

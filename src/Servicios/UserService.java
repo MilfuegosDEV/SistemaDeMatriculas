@@ -32,7 +32,7 @@ public class UserService {
             if (user != null && user.GetUsername().equals(username)) {
                 return user;
             }
-            return null;
+            continue;
         }
         return null;
     }
