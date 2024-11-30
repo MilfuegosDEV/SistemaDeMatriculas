@@ -26,9 +26,11 @@ public class UserEntity {
         this.role = role;
     }
 
-    public String ShowInfo() {
-        return this.id + "\t" + this.username + "\t" + "*************" + "\t" + this.name
-                + "\t" + this.lastname + "\t" + this.role.GetRole();
+    public String[] ShowInfo() {
+        return new String[]{
+            Integer.toString(this.id), this.username, "*****", this.name, this.lastname,
+            this.role.GetRole()
+        };
     }
 
     public boolean ValidatePassword(String password) {
@@ -43,5 +45,10 @@ public class UserEntity {
     public String toString() {
         return this.id + "," + this.username + "," + this.password + "," + this.name + "," + this.lastname + ","
                 + this.role.GetId();
+    }
+
+    public static UserEntity FromString(String user) {
+        String[] data = user.split(",");
+        return new UserEntity(Integer.parseInt(data[0]), data[1], data[2], data[3], data[4], new RoleEntity(Integer.parseInt(data[5]), ""));
     }
 }

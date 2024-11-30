@@ -37,14 +37,19 @@ public class UserService {
         return null;
     }
 
-    public String GetUsers() {
-        String result = "id\tusername\tpassword\tname\tlastname\trole\n";
-        for (UserEntity user : this.users) {
-            if (user != null) {
-                result += user.ShowInfo() + "\n";
+    public String[][] GetUsers() {
+        String[][] userInfos = new String[5][1000];
+        for (int i = 0; i < this.users.length; i++) {
+            if (this.users[i] != null) {
+                userInfos[i] = this.users[i].ShowInfo();
             }
         }
-        return result;
+        return userInfos;
+    }
+
+    public boolean ValidateUser(String username, String password) {
+        UserEntity user = this.GetUser(username);
+        return user != null && user.ValidatePassword(password);
     }
 
 }

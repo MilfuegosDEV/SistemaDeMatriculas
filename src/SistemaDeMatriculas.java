@@ -1,13 +1,26 @@
 
 import Entidades.*;
+import Menus.*;
 import Servicios.*;
+import javax.swing.JOptionPane;
 
 public class SistemaDeMatriculas {
 
     public static void main(String[] args) {
-        UserService userservice = new UserService();
-        UserEntity user = new UserEntity(1, "milfuegosdev", "admin", "Daniel", "Luna", userservice.Admin);
-        userservice.AddUser(user);
-        System.out.println(userservice.GetUsers());
+        UserService userService = new UserService();
+        UserEntity user1 = new UserEntity(1, "superadmin", "admin", "", "", userService.Admin);
+        userService.AddUser(user1);
+        String[] options = {"Ingresar", "Salir"};
+
+        PoblateUsers();
+        int option = JOptionPane.showOptionDialog(null, "Bienvenido al sistema de matrículas", "Sistema de matrículas", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+        if (option == 0) {
+            Login.ShowMenu(userService);
+        }
+
+    }
+
+    private static void PoblateUsers() {
     }
 }
