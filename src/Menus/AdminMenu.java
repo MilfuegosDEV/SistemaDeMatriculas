@@ -1,6 +1,7 @@
 package Menus;
 
 import Entidades.*;
+import Servicios.PasswordService;
 import Servicios.UserService;
 import javax.swing.*;
 
@@ -76,7 +77,13 @@ public class AdminMenu {
                 role = this.userService.Student;
             }
 
-            UserEntity user = new UserEntity(username.getText(), new String(password.getPassword()), nombre.getText(), apellido.getText(), role);
+            PasswordService passwordService = new PasswordService();
+            String testingpassword = String.valueOf(password.getPassword());
+            passwordService.PasswordVerifier(testingpassword);
+            //La verificacion sirve pero no guarda la contraseña modificada
+
+            UserEntity user = new UserEntity(username.getText(), testingpassword, nombre.getText(), apellido.getText(), role);
+            //new String(password.getPassword())
             this.userService.AddUser(user);
 
         }
