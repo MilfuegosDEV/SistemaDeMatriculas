@@ -1,6 +1,7 @@
 package Servicios;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 public class PasswordService {
     
@@ -12,7 +13,15 @@ public class PasswordService {
         while(aprobacion != true){
             
             if(secondtrun == true){
-                password = JOptionPane.showInputDialog("Digite la contraseña deseada: ");
+                JPasswordField newAttempPassword = new JPasswordField();
+                Object[] message = {
+                    "Digite la contraseña deseada: ", newAttempPassword,
+                };    
+                int option = JOptionPane.showConfirmDialog(null, message, "Reingresar contraseña", JOptionPane.OK_CANCEL_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    password = String.valueOf(newAttempPassword.getPassword());
+
+                }
             }
             secondtrun = true;
             aprobacion = true;

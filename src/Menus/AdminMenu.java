@@ -78,12 +78,9 @@ public class AdminMenu {
             }
 
             PasswordService passwordService = new PasswordService();
-            String testingpassword = String.valueOf(password.getPassword());
-            passwordService.PasswordVerifier(testingpassword);
-            //La verificacion sirve pero no guarda la contraseña modificada
+            
 
-            UserEntity user = new UserEntity(username.getText(), testingpassword, nombre.getText(), apellido.getText(), role);
-            //new String(password.getPassword())
+            UserEntity user = new UserEntity(username.getText(), passwordService.PasswordVerifier(String.valueOf(password.getPassword())), nombre.getText(), apellido.getText(), role);
             this.userService.AddUser(user);
 
         }
