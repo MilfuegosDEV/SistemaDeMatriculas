@@ -27,4 +27,15 @@ public class CursoService {
         }
         return null;
     }
+
+    public String[][] GetCursos() {
+        String[][] cursosInfos = new String[4][1000];
+        for (int i = 0; i < this.cursos.length; i++) {
+            if (this.cursos[i] != null) {
+                cursosInfos[i] = this.cursos[i].ShowInfo();
+            }
+        }
+        return cursosInfos;
+    }
+
 }

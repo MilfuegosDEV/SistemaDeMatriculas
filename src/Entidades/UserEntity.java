@@ -44,6 +44,10 @@ public class UserEntity {
         return this.username;
     }
 
+    public String GetPassword(){
+        return this.password;
+    }
+
     @Override
     public String toString() {
         return this.id + "," + this.username + "," + this.password + "," + this.name + "," + this.lastname + ","
