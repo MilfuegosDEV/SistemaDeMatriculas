@@ -8,12 +8,19 @@ public class SistemaDeMatriculas {
 
     public static void main(String[] args) {
         UserService userService = new UserService();
+        CursoService cursoService = new CursoService();
         UserEntity user1 = new UserEntity("admin", "admin", "", "", userService.Admin);
         UserEntity user2 = new UserEntity("teacher", "123456", "", "", userService.Teacher);
         UserEntity user3 = new UserEntity("student", "123456", "", "", userService.Student);
+        CursoEntity curso1 = new CursoEntity(123, 1, "Matemática", user3);
+        CursoEntity curso2 = new CursoEntity(456, 1, "Español", user3);
+        CursoEntity curso3 = new CursoEntity(789, 2, "Matemática", user3);
         userService.AddUser(user1);
         userService.AddUser(user2);
         userService.AddUser(user3);
+        cursoService.AddCurso(curso1);
+        cursoService.AddCurso(curso2);
+        cursoService.AddCurso(curso3);
 
         String[] options = {"INGRESAR", "SALIR"};
 
