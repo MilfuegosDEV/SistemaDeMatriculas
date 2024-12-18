@@ -18,16 +18,18 @@ public class SistemaDeMatriculas {
         userService.AddUser(user1);
         userService.AddUser(user2);
         userService.AddUser(user3);
-        cursoService.AddCurso(curso1);
-        cursoService.AddCurso(curso2);
-        cursoService.AddCurso(curso3);
+        cursoService.AddCursoStudents(curso1);
+        cursoService.AddCursoStudents(curso2);
+        cursoService.AddCursoStudents(curso3);
+
+
 
         String[] options = {"INGRESAR", "SALIR"};
 
         int option = JOptionPane.showOptionDialog(null, "Bienvenido al sistema de matrículas", "Sistema de matrículas", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 
         if (option == 0) {
-            AuthMenu authMenu = new AuthMenu(userService);
+            AuthMenu authMenu = new AuthMenu(userService, cursoService);
             authMenu.Login();
         }
 

@@ -52,4 +52,32 @@ public class CursoEntity {
     public String toString() {
         return this.id + "," + this.nombre + "," + this.grado + "," + this.profesor.GetUsername();
     }
+
+    public String getNombre(){
+        return nombre;
+    } 
+    
+    public int getGrado(){
+        return grado;
+    } 
+
+    public UserEntity GetEstudiante(int position){
+        return estudiantes[position];
+    }
+    
+    public void setEstudiantes(int position){
+        this.estudiantes[position] = estudiantes[position];
+    }
+
+    public UserEntity GetProfesor() {
+        return this.profesor;
+    }
+    
+    public String GetNombre() {
+        return this.nombre;
+    }
+    
+    public int GetGrado() {
+        return this.grado;
+    }
 }
