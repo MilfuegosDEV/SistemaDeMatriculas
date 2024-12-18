@@ -4,6 +4,9 @@ import Entidades.*;
 
 public class CursoService {
 
+    public CursoEntity cursostudents[] = new CursoEntity[100];
+    public int contador = 0;
+
     private final CursoEntity[] cursos;
 
     public CursoService() {
@@ -17,6 +20,11 @@ public class CursoService {
                 break;
             }
         }
+    }
+
+    public void AddCursoStudents(CursoEntity curso){
+        cursostudents[contador] = curso;
+        contador+=1;
     }
 
     public CursoEntity GetCurso(int id) {
@@ -36,6 +44,10 @@ public class CursoService {
             }
         }
         return cursosInfos;
+    }
+
+    public CursoEntity[] GetCursosList() {
+        return this.cursos;
     }
 
 }
