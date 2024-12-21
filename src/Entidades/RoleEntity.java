@@ -1,3 +1,4 @@
+package Entidades;
 
 //Clase contenedora de métodos para la entidad de roles.
 
