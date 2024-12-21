@@ -59,17 +59,4 @@ public class UserEntity {
     public int GetID() {
         return this.id;
     }
-
-    public
-
-    @Override
-    public String toString() {
-        return this.id + "," + this.username + "," + this.password + "," + this.name + "," + this.lastname + ","
-                + this.role.GetId();
-    }
-
-    public static UserEntity FromString(String user) {
-        String[] data = user.split(",");
-        return new UserEntity(data[1], data[2], data[3], data[4], new RoleEntity(Integer.parseInt(data[5]), ""));
-    }
 }

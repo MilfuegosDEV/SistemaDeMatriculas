@@ -2,7 +2,6 @@ package Menus;
 
 import Entidades.*;
 import Servicios.CursoService;
-import Servicios.PasswordService;
 import Servicios.UserService;
 import javax.swing.*;
 
@@ -10,7 +9,6 @@ public class AdminMenu {
 
     UserService userService;
     CursoService cursoService;
-    PasswordService passwordService = new PasswordService();
 
     public AdminMenu(UserEntity user, UserService userService, CursoService cursoService) {
         this.userService = userService;
@@ -111,10 +109,9 @@ public class AdminMenu {
         };
         int option = JOptionPane.showConfirmDialog(null, message, "Editar usuario", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            for (int i = 0; i < users.length; i++) {
-                if (currentusers.getSelectedItem().equals(users[i][1])) {
-                    UserEntity user = userService.GetUser(users[i][1]);
-
+            for (String[] user1 : users) {
+                if (currentusers.getSelectedItem().equals(user1[1])) {
+                    UserEntity user = userService.GetUser(user1[1]);
                     JTextField nombre = new JTextField(user.name);
                     JTextField apellido = new JTextField(user.lastname);
                     JComboBox<String> rol = new JComboBox<>(new String[]{"Admin", "Profesor", "Estudiante"});
@@ -122,11 +119,10 @@ public class AdminMenu {
                         "Nombre: ", nombre,
                         "Apellido: ", apellido,
                         "Rol: ", rol
-
-
+                            
+                            
                     };
                     JOptionPane.showConfirmDialog(null, editmessage, "Editar usuario", JOptionPane.OK_CANCEL_OPTION);
-
                     if (option == JOptionPane.OK_OPTION) {
                         if (!nombre.getText().isEmpty()) {
                             user.name = nombre.getText();
