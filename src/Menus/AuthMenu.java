@@ -1,6 +1,7 @@
 package Menus;
 
 import Entidades.UserEntity;
+import Servicios.CursoService;
 import Servicios.UserService;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -9,9 +10,13 @@ import javax.swing.JTextField;
 public class AuthMenu {
 
     UserService userService;
+    CursoService cursoService;
 
-    public AuthMenu(UserService userService) {
+    public AuthMenu(UserService userService, CursoService cursoService) {
         this.userService = userService;
+        // pasamos esto para despues usarlo en el main;
+        this.cursoService = cursoService;
+
     }
 
     public void Login() {
@@ -37,13 +42,13 @@ public class AuthMenu {
                         switch (user.role.GetRole()) {
                             case "Admin" -> {
                                 JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
-                                AdminMenu adminMenu = new AdminMenu(user, this.userService);
+                                AdminMenu adminMenu = new AdminMenu(user, this.userService, this.cursoService);
                                 this.userService = adminMenu.close();
                                 username.setText("");
                                 password.setText("");
                                 loggedIn = false;
                             }
-                            case "Estudiante" -> {
+                            case "Esudiante" -> {
                                 JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
                                 StudentMenu studentMenu = new StudentMenu(user);
                                 studentMenu.close();

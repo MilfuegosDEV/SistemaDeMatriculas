@@ -1,22 +1,21 @@
 package Servicios;
 
 import Entidades.*;
+import java.util.*;
+
 
 public class CursoService {
 
-    private final CursoEntity[] cursos;
+    public List<CursoEntity> cursos;
 
-    public CursoService() {
-        this.cursos = new CursoEntity[12];
+    public CursoService(List<CursoEntity> CursoList) {
+        this.cursos = CursoList;
     }
 
     public void AddCurso(CursoEntity curso) {
-        for (int i = 0; i < this.cursos.length; i++) {
-            if (this.cursos[i] == null) {
-                this.cursos[i] = curso;
-                break;
-            }
-        }
+        int next_id = 1 + this.cursos.size();
+        curso.SetId(next_id);
+        this.cursos.add(curso);        
     }
 
     public CursoEntity GetCurso(int id) {
@@ -28,14 +27,13 @@ public class CursoService {
         return null;
     }
 
-    public String[][] GetCursos() {
-        String[][] cursosInfos = new String[4][1000];
-        for (int i = 0; i < this.cursos.length; i++) {
-            if (this.cursos[i] != null) {
-                cursosInfos[i] = this.cursos[i].ShowInfo();
-            }
+
+    public String[][] ShowInfo() {
+        String[][] data = new String [this.cursos.size()][4];
+        for (int i = 0; i < this.cursos.size(); i++) {
+            data[i] = this.cursos.get(i).ShowInfo();
         }
-        return cursosInfos;
+        return data;
     }
 
 }

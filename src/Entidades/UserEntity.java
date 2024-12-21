@@ -36,6 +36,7 @@ public class UserEntity {
         return this.password.equals(password);
     }
 
+
     public void setUserId(int id) {
         this.id = id;
     }
@@ -47,6 +48,19 @@ public class UserEntity {
     public String GetPassword(){
         return this.password;
     }
+
+    public String[] GetInfo() {
+        return new String[]{ 
+            this.username, this.name, this.lastname
+        };
+    }
+
+
+    public int GetID() {
+        return this.id;
+    }
+
+    public
 
     @Override
     public String toString() {

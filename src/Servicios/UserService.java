@@ -1,49 +1,58 @@
 package Servicios;
 
 import Entidades.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserService {
 
-    private final UserEntity[] users;
+    public List<UserEntity> users;
 
     public RoleEntity Admin;
     public RoleEntity Teacher;
     public RoleEntity Student;
 
-    public UserService() {
-        this.users = new UserEntity[1000];
+    public UserService(List<UserEntity> UserList) {  
+        this.users = UserList;
         this.Admin = new RoleEntity(1, "Admin");
-        this.Teacher = new RoleEntity(2, "Profesor");
-        this.Student = new RoleEntity(3, "Estudiante");
+        this.Teacher = new RoleEntity(2, "Teacher");
+        this.Student = new RoleEntity(3, "Student");
     }
 
-    public UserEntity AddUser(UserEntity user) {
-        for (int i = 0; i < this.users.length; i++) {
-            if (this.users[i] == null) {
-                this.users[i] = user;
-                user.setUserId(i);
-                break;
-            }
+    public int CreateUser(UserEntity user) {
+        int next_id = 1 + this.users.size();
+        user.setUserId(next_id);
+        this.users.add(user);
+        return user.GetID();
+    }
+
+
+    public String[][] GetUsers() {
+        String[][] data = new String[this.users.size()][6];
+        for (int i = 0; i < this.users.size(); i++) {
+            data[i] = this.users.get(i).ShowInfo();
         }
-        return user;
+        return data;
     }
 
     public UserEntity GetUser(String username) {
         for (UserEntity user : this.users) {
-            if (user != null && user.GetUsername().equals(username)) {
+            if (username.equals(user.GetUsername())) {
                 return user;
             }
-        }
+        }       
         return null;
     }
 
-    public String[][] GetUsers() {
-        String[][] userInfos = new String[5][1000];
-        for (int i = 0; i < this.users.length; i++) {
-            if (this.users[i] != null) {
-                userInfos[i] = this.users[i].ShowInfo();
+
+    public List<String> FilterByRole(RoleEntity role) {
+
+        List<String> filteredUsers = new ArrayList<>();
+        for (UserEntity user: this.users) {
+            if (user.role == role){
+                filteredUsers.addLast(user.username);
             }
         }
-        return userInfos;
+        return filteredUsers;
     }
 }

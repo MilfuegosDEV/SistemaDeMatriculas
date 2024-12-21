@@ -5,16 +5,16 @@ import Servicios.CursoService;
 import Servicios.PasswordService;
 import Servicios.UserService;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 public class AdminMenu {
 
     UserService userService;
-    CursoService cursoService = new CursoService();
+    CursoService cursoService;
     PasswordService passwordService = new PasswordService();
 
-    public AdminMenu(UserEntity user, UserService userService) {
+    public AdminMenu(UserEntity user, UserService userService, CursoService cursoService) {
         this.userService = userService;
+        this.cursoService = cursoService;
         String[] Options = {"USUARIOS", "CURSOS", "SALIR"};
         do {
             int option = JOptionPane.showOptionDialog(null, "Bienvenido " + user.GetUsername(), "Sistema de matrículas\nSeleccione una opción", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Options, Options[0]);
@@ -36,8 +36,6 @@ public class AdminMenu {
     private void ShowUsers() {
         String[][] users = this.userService.GetUsers();
         String[] cols = {"ID", "USERNAME", "PASSWORD", "NOMBRE", "APELLIDO", "ROL"};
-        JComboBox<String> rol = new JComboBox<>(users[1]);
-
         String[] options = {"AGREGAR", "EDITAR", "SALIR"};
 
         JTable table = new JTable(users, cols);
@@ -56,8 +54,7 @@ public class AdminMenu {
                 }
             }
             // EditUser();
-                    } while (true);
-
+        } while (true);
 
     }
 
@@ -68,7 +65,6 @@ public class AdminMenu {
         JTextField apellido = new JTextField();
         JComboBox<String> rol = new JComboBox<>(new String[]{"Admin", "Profesor", "Estudiante"});
 
-
         Object[] message = {
             "Username:", username,
             "Password:", password,
@@ -77,27 +73,36 @@ public class AdminMenu {
             "Rol:", rol
         };
         int option = JOptionPane.showConfirmDialog(null, message, "Agregar usuario", JOptionPane.OK_CANCEL_OPTION);
+        if (this.userService.GetUser(username.getText()) != null) {
+            JOptionPane.showMessageDialog(null, "Error el nombre de usuario ya esta en uso", "Usuario existe", JOptionPane.ERROR_MESSAGE);
+            return;
+
+        }
 
         if (option == JOptionPane.OK_OPTION) {
             RoleEntity role;
             if (rol.getSelectedItem().equals("Admin")) {
                 role = this.userService.Admin;
+            } else if (rol.getSelectedItem().equals("Profesor")) {
+                role = this.userService.Teacher;
+
             } else {
                 role = this.userService.Student;
             }
 
-            UserEntity user = new UserEntity(username.getText(), passwordService.PasswordVerifier(String.valueOf(password.getPassword())), nombre.getText(), apellido.getText(), role);
-            this.userService.AddUser(user);
+
+            UserEntity user = new UserEntity(username.getText(), String.valueOf(password.getPassword()), nombre.getText(), apellido.getText(), role);
+            this.userService.CreateUser(user);
 
         }
     }
-    
-    private void EditUser(){
+
+    private void EditUser() {
         String[][] users = this.userService.GetUsers();
-        String [] usernames = new String[users.length];
-        for(int i = 0; i < users.length; i++){
+        String[] usernames = new String[users.length];
+        for (int i = 0; i < users.length; i++) {
             usernames[i] = users[i][1];
-        }    
+        }
 
         JComboBox<String> currentusers = new JComboBox<>(usernames);
 
@@ -106,67 +111,52 @@ public class AdminMenu {
         };
         int option = JOptionPane.showConfirmDialog(null, message, "Editar usuario", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            for(int i = 0; i < users.length; i++){
-                if(currentusers.getSelectedItem().equals(users[i][1])){
+            for (int i = 0; i < users.length; i++) {
+                if (currentusers.getSelectedItem().equals(users[i][1])) {
                     UserEntity user = userService.GetUser(users[i][1]);
-                    
-                    JTextField username = new JTextField();
-                    JTextField password = new JTextField();
-                    JTextField nombre = new JTextField();
-                    JTextField apellido = new JTextField();
+
+                    JTextField nombre = new JTextField(user.name);
+                    JTextField apellido = new JTextField(user.lastname);
                     JComboBox<String> rol = new JComboBox<>(new String[]{"Admin", "Profesor", "Estudiante"});
                     Object[] editmessage = {
-                        "Username actual: "+user.username,
-                        "Nuevo Username:", username,
-                        "\n",
-                        "Contraseña actual: "+user.GetPassword(),
-                        "Nueva contraseña: ", password,
-                        "\n",
-                        "Nombre actual: "+user.name,
-                        "Nuevo nombre:", nombre,
-                        "\n",
-                        "Apellido actual: "+user.lastname,
-                        "Nuevo apellido:", apellido,
-                        "\n",
-                        "Rol actual: "+user.role,
-                        "Nuevo rol", rol
-                    };
-                    int editoption = JOptionPane.showConfirmDialog(null, editmessage, "Editar usuario", JOptionPane.OK_CANCEL_OPTION);
-            
-                    if (option == JOptionPane.OK_OPTION) {
-                        if(!username.getText().isEmpty()){
-                            user.username = username.getText();
-                        }
-                        if(!password.getText().isEmpty()){
-                            //user. = passwordService.PasswordVerifier(password.getText());
+                        "Nombre: ", nombre,
+                        "Apellido: ", apellido,
+                        "Rol: ", rol
 
-                        }
-                        if(!nombre.getText().isEmpty()){
+
+                    };
+                    JOptionPane.showConfirmDialog(null, editmessage, "Editar usuario", JOptionPane.OK_CANCEL_OPTION);
+
+                    if (option == JOptionPane.OK_OPTION) {
+                        if (!nombre.getText().isEmpty()) {
                             user.name = nombre.getText();
                         }
-                        if(!apellido.getText().isEmpty()){
+                        if (!apellido.getText().isEmpty()) {
                             user.lastname = apellido.getText();
                         }
-                        RoleEntity newrole;
-                        if (rol.getSelectedItem().equals("Admin")) {
-                        newrole = this.userService.Admin;
-                        } if (rol.getSelectedItem().equals("Profesor")){
-                            newrole = this.userService.Teacher;
-                        } else {
-                        newrole = this.userService.Student;
+
+                        switch ((String) rol.getSelectedItem()) {
+                            case "Admin":
+                                user.role = this.userService.Admin;
+                                break;
+                            case "Profesor":
+                                user.role = this.userService.Teacher;
+                                break;
+                            default:
+                                user.role = this.userService.Student;
                         }
-                        user.role = newrole;
 
                     }
                     //password, id are protected;
-                }     
-            }    
+                }
+            }
         }
-    
+
     }
+
     private void ShowCourses() {
-        String[][] courses = this.cursoService.GetCursos();
-        String[] cols = {"ID", "NOMBRE", "GRADO", "PROFESOR"};
+        String[][] courses = this.cursoService.ShowInfo();
+        String[] cols = {"ID", "CURSO", "GRADO", "PROFESOR", "MATRICULADOS"};
 
         String[] options = {"AGREGAR", "SALIR"};
 
@@ -183,40 +173,31 @@ public class AdminMenu {
                 default -> {
                 }
             }
-                    } while (true);
-            
+        } while (true);
+
     }
 
     private void AddCourse() {
-        JTextField id = new JTextField();
         JTextField nombre = new JTextField();
         JTextField grado = new JTextField();
-        Object profesor = cursoService.GetCurso(789);
-        JComboBox<String> rol = new JComboBox<>(new String[]{"Admin", "Profesor", "Estudiante"});
-        
+        JComboBox<String> profesores = new JComboBox<>(userService.FilterByRole(userService.Teacher).toArray(new String[0]));
+
+
         Object[] message = {
-            "ID:", id,
             "Nombre:", nombre,
             "Grado:", grado,
+            "Profesor:", profesores
+
         };
         int option = JOptionPane.showConfirmDialog(null, message, "Agregar curso", JOptionPane.OK_CANCEL_OPTION);
 
         if (option == JOptionPane.OK_OPTION) {
-            RoleEntity role;
-            if (rol.getSelectedItem().equals("Admin")) {
-                role = this.userService.Admin;
-            } else {
-                role = this.userService.Student;
-            }
-
-            UserEntity user4 = new UserEntity("teacher", "123456", "", "", userService.Teacher);
-            CursoEntity curso3 = new CursoEntity(777, 2, "Matemática", user4);
-
-
-            //CursoEntity curso = new CursoEntity(id.getText(), grado.getText(), nombre.getText(), user4.GetUsername());
-            this.cursoService.AddCurso(curso3);
-        }    
-    }    
+            UserEntity profesor = this.userService.GetUser((String) profesores.getSelectedItem());
+            CursoEntity curso = new CursoEntity((int) Integer.parseInt(grado.getText()), nombre.getText(), profesor);
+            
+            cursoService.AddCurso(curso);
+        }
+    }
 
     public UserService close() {
         return this.userService;
