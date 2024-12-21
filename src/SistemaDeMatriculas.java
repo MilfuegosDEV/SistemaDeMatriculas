@@ -14,8 +14,8 @@ public class SistemaDeMatriculas {
         CursoService cursoService = new CursoService(courses);
         UserService userService = new UserService(users);
         UserEntity user1 = new UserEntity("admin", "admin", "Sarai", "Valle", userService.Admin);
-        UserEntity user2 = new UserEntity("teacher", "123456", "Daniel", "Luna Cienfuegos", userService.Teacher);
-        UserEntity user3 = new UserEntity("student", "123456", "Dario", "", userService.Student);
+        UserEntity user2 = new UserEntity("1", "1", "Daniel", "Luna Cienfuegos", userService.Teacher);
+        UserEntity user3 = new UserEntity("2", "2", "Dario", "", userService.Student);
         userService.CreateUser(user1);
         userService.CreateUser(user2);
         userService.CreateUser(user3);

@@ -6,10 +6,10 @@ import java.util.List;
 public class CursoEntity {
 
     private int id;
-    private final List<UserEntity> estudiantes;
+    public List<UserEntity> estudiantes;
     private final int grado;
     private final String nombre;
-    private final UserEntity profesor;
+    public UserEntity profesor;
 
     public CursoEntity(int grado, String nombre, UserEntity profesor) {
         this.grado = grado;
@@ -27,6 +27,13 @@ public class CursoEntity {
             Integer.toString(this.id), this.nombre, Integer.toString(this.grado), (this.profesor.name + " " + this.profesor.lastname), Integer.toString(this.estudiantes.size())
         };
     }
+
+    public String[] ShowTeacherDetails(){
+        return new String[]{
+            Integer.toString(this.id), this.nombre, Integer.toString(this.grado), Integer.toString(this.estudiantes.size())
+        };
+    }
+
 
     public void SetId(int id) {
         this.id = id;

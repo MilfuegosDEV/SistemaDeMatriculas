@@ -47,18 +47,25 @@ public class AuthMenu {
                                 username.setText("");
                                 password.setText("");
                                 loggedIn = false;
+                                break;
                             }
-                            case "Esudiante" -> {
+                            case "Teacher" -> {
                                 JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
-                                StudentMenu studentMenu = new StudentMenu(user);
-                                studentMenu.close();
-                            }
-                            case "Profesor" -> {
-                                JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
-                                ProfesorMenu profesorMenu = new ProfesorMenu(user);
+                                ProfesorMenu profesorMenu = new ProfesorMenu(user, this.userService, this.cursoService);
                                 profesorMenu.close();
+                                username.setText("");
+                                password.setText("");
+                                loggedIn = false;
+                                break;
                             }
                             default -> {
+                                JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
+                                StudentMenu studentMenu = new StudentMenu(user, this.userService, this.cursoService);
+                                studentMenu.close();
+                                username.setText("");
+                                password.setText("");
+                                loggedIn = false;
+                                break;
                             }
                         }
                     } else {
