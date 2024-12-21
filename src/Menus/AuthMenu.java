@@ -1,3 +1,4 @@
+//Clase contenedora de métodos de uso exclusivo para la autentificación del rol del usuario y mostrar su respectivo menú.
 package Menus;
 
 import Entidades.UserEntity;
@@ -9,16 +10,17 @@ import javax.swing.JTextField;
 
 public class AuthMenu {
 
+    //Objetos establecidos para utilizar información ya existente de ambos tipos.
     UserService userService;
     CursoService cursoService;
 
     public AuthMenu(UserService userService, CursoService cursoService) {
         this.userService = userService;
-        // pasamos esto para despues usarlo en el main;
         this.cursoService = cursoService;
 
     }
 
+    //Método para inicar sesión y determinar si es un usuario existente para iniciar sesión.
     public void Login() {
 
         boolean loggedIn = false;
@@ -36,9 +38,11 @@ public class AuthMenu {
                 if (username.getText().isEmpty() || password.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese un usuario y contraseña", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
+                    //Una vez se identifique como un usuario existente, la información que contiene implica los detalles que se desplegan.
                     UserEntity user = this.userService.GetUser(username.getText());
                     if (user != null && user.ValidatePassword(password.getText())) {
                         loggedIn = true;
+                        //Estructura condicional switch llamando a la clase de menú según el tipo de rol.
                         switch (user.role.GetRole()) {
                             case "Admin" -> {
                                 JOptionPane.showMessageDialog(null, "Bienvenido " + user.username, "Sistema de matrículas", JOptionPane.INFORMATION_MESSAGE);
@@ -71,6 +75,7 @@ public class AuthMenu {
         }
     }
 
+    //Método para cerrar sesión.
     public UserService Logout() {
         JOptionPane.showMessageDialog(null, "Sesión cerrada", "Logout", JOptionPane.INFORMATION_MESSAGE);
         return this.userService;

@@ -1,3 +1,5 @@
+//Clase que se encarga de verificar si la contraseña ingresada cumple con los requerimientos.
+//Se verifica a través de un ciclo repetitivo hasta que cumpla con las estructuras condicionales establecidas.
 package Servicios;
 
 // import javax.swing.JOptionPane;

@@ -1,3 +1,4 @@
+//Clase contenedora de métodos de uso exclusivo para el menú de los usuarios de rol administrador.
 package Menus;
 
 import Entidades.*;
@@ -7,9 +8,11 @@ import javax.swing.*;
 
 public class AdminMenu {
 
+    //Objetos establecidos para utilizar información ya existente de ambos tipos.
     UserService userService;
     CursoService cursoService;
 
+    //Método para el despliegue del menú. 
     public AdminMenu(UserEntity user, UserService userService, CursoService cursoService) {
         this.userService = userService;
         this.cursoService = cursoService;
@@ -31,6 +34,7 @@ public class AdminMenu {
         } while (true);
     }
 
+    //Método para la opción del menú para mostrar usuarios.
     private void ShowUsers() {
         String[][] users = this.userService.GetUsers();
         String[] cols = {"ID", "USERNAME", "PASSWORD", "NOMBRE", "APELLIDO", "ROL"};
@@ -56,6 +60,7 @@ public class AdminMenu {
 
     }
 
+    //Una vez se muestran los usuarios, se puede llamar al siguiente método para la creación de uno nuevo.
     private void AddUser() {
         JTextField username = new JTextField();
         JPasswordField password = new JPasswordField();
@@ -95,6 +100,7 @@ public class AdminMenu {
         }
     }
 
+    //Método para editar los usuarios existentes, limitando sin embargo el tipo de información que se muestra.
     private void EditUser() {
         String[][] users = this.userService.GetUsers();
         String[] usernames = new String[users.length];
@@ -150,6 +156,7 @@ public class AdminMenu {
 
     }
 
+    //Método para la opción del menú para mostrar cursos.
     private void ShowCourses() {
         String[][] courses = this.cursoService.ShowInfo();
         String[] cols = {"ID", "CURSO", "GRADO", "PROFESOR", "MATRICULADOS"};
@@ -173,6 +180,7 @@ public class AdminMenu {
 
     }
 
+    //Una vez se muestran los cursos, se puede llamar al siguiente método para la creación de uno nuevo.
     private void AddCourse() {
         JTextField nombre = new JTextField();
         JTextField grado = new JTextField();

@@ -1,3 +1,4 @@
+//Clase contenedora de métodos de uso exclusivo para el menú de los usuarios de rol profesor.
 package Menus;
 
 import Entidades.UserEntity;
